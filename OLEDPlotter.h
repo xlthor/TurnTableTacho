@@ -4,6 +4,7 @@
  *  ========================
  *
  *  Helper functions to plot the cartesian graph on the OLED
+ *  we use the u8g2 grafic library, see https://github.com/olikraus/u8g2/wiki/u8g2reference
  *
  */
 
