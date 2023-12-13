@@ -14,16 +14,22 @@
  *    The deviation is in 1/100 so it is for instance 33.35 or 33.28. 
  *    (If it is in an area above, you will defintevily hear it and do not need a graphical plotter, check yor TTs hardware then!)
  * 
- *    Target is to show the current RPM value on a four digit 7-segment display and plot a graph of the last 27 values to an OLED display of 128*128 px.
+ *    Target is to show the current RPM value on a four digit 7-segment display and plot a graph of the last 28 values to an OLED display of 128*128 px.
+ *
+ *    Given a hall sensor and magnets attached to the platter of a turntable (either on the bottom or the edge) we can track the time between each sensor interrupt and calculate the
+ *    effective revolutions per minute (RPM). Displaying both on a 4-digit display and a graphical plotter can visiualize the precision if the turntable regarding 
+ *    flutter and effective target RPM.
  *    
  * Basic principle
  * 
- *    Based on the Hall sensor and the magnets attached to the platter, we get 6 interrupts per one rotation. We track the time between two interrupts and calculate the according RPM. This is displayed
+ *    Based on the Hall sensor and the magnets attached to the platter, we get [numMagnets] interrupts per one rotation. We track the time between two interrupts and calculate the according RPM. 
+ *    This is displayed
  *    on the7-segment display with a precision of two digits ( "33:33"). The value is stored in an array which can hold 27 values. The last is dropped by shifting all values by one 
  *    and the new is inserted at the end of the array. On the OLED, these 27 values are plotted into a graph. Plotting is done in the main loop after an interrupt has been received from the sensor.
  *    The OLED has 128 columns but we need 18 cols for the Y-axis lebales. The "width" of a RPM value is 4 dots. (128 - 18) / 4 = 27.5
  * 
  * HW Setup
+ *
  *    Board is an Arduino Nano, ATMega, 32K / 2 K on a seeed/grove base shield
  *    We use a Hall sensor to track the rotations with small neodym disc-type magnets attached to the bottom of the TT platter
  *    Hall is connected to D2
