@@ -1,11 +1,18 @@
 # Record Player Tachometer
-========================
+
+This is a sketch for an arduino project to track down and plotthe "speed" of a vinyl truntable.
+It is based on an arduino nano, a hall sensor, an 128x128 dots graphic OLED display, a four-digit number display and this sketch.
+
+It shows the current RPM of a turntable on the four-digit displa and the last n rpm values tracked by a graph on the OLED display.
+
+Usecase: if you don't know whether yor vinyl record player is running at the precise speed or you want to check it's wow and flutter,
+just attache some neodym magnets to the platter and visualize the effective RPM over time.
 
 ## Motivation
 
    The purpose of this small sketch is to track down the RPMs of a vinyl turntable (TT) in order to show the deviation over time.
    
-   A vinyl turntable must meet two critical factors:
+  A vinyl turntable must meet two critical factors:
   Target RPM: it should be exactly 33.33 or 45.0 RPMs
   Stability:  the speed should not vary over time, at least not more than 0.3% wich is 0.01 RPM
 
@@ -47,9 +54,9 @@
    The ISR for the Hall sensor is critical. It must do some basic calculations but it should be as short as possible. The read-out of the micros must be the very first statement.
    If there is only one magnet, the flutter within one round can't be tracked. Especially if the belt is from varying thickness, this maight cause fast speed changes which are not captured then.
    If there are many magnets (i.e 6 or 8), number of interrupts may be critical during update of the display.
-   Tried one magnet: resolution to low
-   Tried six magnets: Position precision of the magnets is very critical, should be within few micrometers!
-   Tried three magnets: Best results with an Arduino Nano on a belt drive with three magnets attached to the bottom ofthe platter
+   * Tried one magnet: resolution to low
+   * Tried six magnets: Position precision of the magnets is very critical, should be within few micrometers!
+   * Tried three magnets: Best results with an Arduino Nano on a belt drive with three magnets attached to the bottom ofthe platter
    
 ##  Tests
  
