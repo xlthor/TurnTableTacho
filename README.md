@@ -1,6 +1,6 @@
 # Record Player Tachometer
 
-This is a sketch for an arduino project to track down and plotthe "speed" of a vinyl truntable.
+This is a sketch for an arduino project to track down and plot the "speed" of a vinyl record player (aka "turntable").
 It is based on an arduino nano, a hall sensor, an 128x128 dots graphic OLED display, a four-digit number display and this sketch.
 
 It shows the current RPM of a turntable on the four-digit displa and the last n rpm values tracked by a graph on the OLED display.
