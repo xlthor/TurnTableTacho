@@ -8,7 +8,7 @@ It shows the current RPM of a turntable on the four-digit 7-segment display and 
 Usecase: if you don't know whether your vinyl record player is running at the precise speed or you want to check it's wow and flutter,
 just attach some neodym magnets to the platter and visualize the effective RPM over time.
 
-It is possible to start with at least just on magnet on the platter but the rresolution will be a bit insufficient as deviations within one turn can't be tracked.
+It is possible to start with at least just one single magnet on the platter but the rresolution will be a bit insufficient as deviations within one turn can't be tracked.
 
 ## Motivation
 
@@ -34,7 +34,7 @@ It is possible to start with at least just on magnet on the platter but the rres
    Based on the Hall sensor and the magnets attached to the platter, we get [numMagnets] interrupts per one rotation. We track the time between two interrupts and calculate the according RPM. 
    This is displayed on the 7-segment display with a precision of two digits ("33:33"). The value is stored in an array which can hold 28 values. The last is dropped by shifting all values by one 
    and the new is inserted at the end of the array. On the OLED, these 28 values are plotted into a graph. Plotting is done in the main loop after an interrupt has been received from the sensor.
-   The OLED has 128 columns but we need 18 cols for the Y-axis lebales. The "width" of a RPM value is 4 dots. (128 - 18) / 4 = 27.5
+   The OLED has 128 columns but we need 18 cols for the Y-axis lables. The "width" of a RPM value is 4 dots. (128 - 18) / 4 = 27.5
 
 ## HW Setup
 
