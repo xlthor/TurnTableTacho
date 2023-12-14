@@ -24,9 +24,14 @@ int numRpmValues = sizeof(rpmValues) / sizeof(rpmValues[0]);  // stretch 4
 // number of magnets on platter
 const unsigned int numMagnets = 3;
 
+// whether to show an average or the effective current RPM value
+const bool AVG = false;
+
 // counter for catched interrupts from the hall sensor
 volatile int hallInterruptCounter;
-bool update = false;
+
+// loop counter
+int loops = 0;
 
 // time of the hall sensor interrupt;
 unsigned long timeold;
@@ -85,27 +90,47 @@ void u8g2Interrupt(bool set) {
  * processor loop
  */
 void loop() {
+  
+  // plot the graph after every second loop
+  if (loops % 2 == 0 || loops == 0) {
 
-  TimeUpdate(rpmValues[numRpmValues - 1]);
-
-  if (hallInterruptCounter % 2 == 0 || hallInterruptCounter == 0) {
     u8g2Interrupt(false);
     oledPlotter.plotGraph(rpmValues, numRpmValues);
     hallInterruptCounter = 0;
     u8g2Interrupt(true);
+    loops = 0;
+
   }
 
+  // we cannot track "no revolution" ...
   // set to zero after <gap> seconds w/o any interrupt. Default 3 seconds.
-  if (micros() - timeold > gap) {
+  if (micros() - timeold >= gap) {
+
     TimeUpdate(0.0);
-    timeold = micros();
+  
     // re-initalize revolution counter
     hallInterruptCounter = 0;
     storeToArray(0.0);
-    oledPlotter.plotGraph(rpmValues, numRpmValues);
+
+  } else {
+
+    if ( AVG ) { // average over all values in array
+      float avgRpm = 0.0;
+      for ( int i = 0; i < numRpmValues; i++ ) {
+        avgRpm += rpmValues[i];
+      }
+      TimeUpdate(avgRpm / numRpmValues);
+
+    } else {
+
+      TimeUpdate(rpmValues[numRpmValues - 1]); // last value in array
+
+    }
+
   }
 
   delay(1000);
+  loops ++;
 }
 
 /**
@@ -156,6 +181,9 @@ void hallISR() {
   timeold = timeold_tmp;
 }
 
+/**
+ * update the 7-segment display
+ */
 void TimeUpdate(float rpms) {
 
   //  debugger.println(Debugger::TRACE, "----------------------------------");
